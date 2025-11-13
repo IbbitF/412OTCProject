@@ -82,3 +82,96 @@ input:focus {
   text-decoration: underline;
 }
 
+/* ===== DASHBOARD STYLES ===== */
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fb;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #f0f3f8;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #444;
+  padding: 10px 0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  color: #007bff;
+  background-color: #e8f0fe;
+  border-radius: 6px;
+  padding-left: 8px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 3rem;
+}
+
+.main-content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+.summary {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  min-width: 200px;
+}
+
+.card p {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.card h2 {
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.actions {
+  margin-top: 2rem;
+}
+
+.actions button {
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.actions button:hover {
+  background-color: #007bff;
+  color: white;
+}

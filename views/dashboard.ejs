@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medicine Tracker Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Medicine Tracker</h2>
+      <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Browse Medicines</a>
+        <a href="#">My Medicines</a>
+        <a href="#">Add Medicine</a>
+        <a href="#">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>Welcome back</h1>
+
+      <!-- Summary cards -->
+      <div class="summary">
+        <div class="card">
+          <p>Saved medicines</p>
+          <h2 id="savedCount">18</h2>
+        </div>
+        <div class="card">
+          <p>Top brand</p>
+          <h2 id="topBrand">Tylenol</h2>
+        </div>
+        <div class="card">
+          <p>Common type</p>
+          <h2 id="commonType">Pain reliever</h2>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="actions">
+        <button>Browse</button>
+        <button>My list</button>
+        <button>Add medicine</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Example JS - later this can fetch from backend
+    document.querySelectorAll(".actions button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        alert(`Clicked: ${btn.textContent}`);
+      });
+    });
+  </script>
+</body>
+</html>
