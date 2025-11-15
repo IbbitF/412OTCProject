@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Browse Medicines</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="dashboard">
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>Medicine Tracker</h2>
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/browse" class="active">Browse Medicines</a>
+      <a href="/my-medicines">My Medicines</a>
+      <a href="/add-medicine">Add Medicine</a>
+      <a href="/">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <h1>Browse medicines</h1>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      
+      <div class="filter-box">
+        <label>Search</label>
+        <input type="text" id="searchInput" placeholder="Type a medicine name…">
+      </div>
+
+      <div class="filter-box">
+        <label>Brand</label>
+        <select id="brandSelect">
+          <option>Any brand</option>
+          <option>Tylenol</option>
+          <option>Claritin</option>
+          <option>Imodium</option>
+        </select>
+      </div>
+
+      <div class="filter-box">
+        <label>Type</label>
+        <select id="typeSelect">
+          <option>Any type</option>
+          <option>Pain Reliever</option>
+          <option>Antihistamine</option>
+          <option>Anti-Diarrheal</option>
+        </select>
+      </div>
+
+      <div class="filter-box">
+        <label>Dosage</label>
+        <select id="dosageSelect">
+          <option>Any dosage</option>
+          <option>Tablet</option>
+          <option>Capsule</option>
+          <option>Liquid</option>
+        </select>
+      </div>
+
+      <button class="apply-btn">Apply</button>
+    </div>
+
+    <!-- Table -->
+    <table class="med-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Type</th>
+        <th>Dosage</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+
+      <tbody id="medicineTable">
+        <tr>
+          <td>Tylenol Extra Strength</td>
+          <td>Tylenol</td>
+          <td>Pain Reliever</td>
+          <td>Tablet</td>
+          <td><button class="save-btn">Save to my list</button></td>
+        </tr>
+
+        <tr>
+          <td>Claritin-D</td>
+          <td>Claritin</td>
+          <td>Antihistamine</td>
+          <td>Tablet</td>
+          <td><button class="save-btn">Save to my list</button></td>
+        </tr>
+
+        <tr>
+          <td>Imodium A-D</td>
+          <td>Imodium</td>
+          <td>Anti-Diarrheal</td>
+          <td>Tablet</td>
+          <td><button class="save-btn">Save to my list</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </main>
+</div>
+
+<script>
+  // simple demo
+  document.querySelector(".apply-btn").addEventListener("click", () => {
+    alert("Filters applied! (frontend only)");
+  });
+</script>
+
+</body>
+</html>

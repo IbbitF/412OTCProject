@@ -175,3 +175,128 @@ input:focus {
   background-color: #007bff;
   color: white;
 }
+/* ===== Filter Bar ===== */
+.filter-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-box label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.filter-box input,
+.filter-box select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 160px;
+}
+
+.apply-btn {
+  padding: 9px 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.apply-btn:hover {
+  background-color: #0057c9;
+}
+
+/* ===== Table ===== */
+.med-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+.med-table th,
+.med-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.save-btn {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #007bff;
+  color: #007bff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #007bff;
+  color: white;
+}
+
+/* ===== Add Medicine Page ===== */
+.add-box {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  max-width: 700px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.create-btn {
+  margin-top: 10px;
+  padding: 10px 16px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #005fcc;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
