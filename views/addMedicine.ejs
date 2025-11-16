@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Medicine</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>Medicine Tracker</h2>
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/browse">Browse Medicines</a>
+      <a href="/my-medicines">My Medicines</a>
+      <a href="/add-medicine" class="active">Add Medicine</a>
+      <a href="/">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <h1>Add medicine</h1>
+
+    <!-- Form Container -->
+    <div class="add-box">
+
+      <form id="addForm">
+
+        <!-- Medicine Name -->
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="medName" placeholder="Enter medicine name..." required>
+        </div>
+
+        <!-- Brand + Dosage Row -->
+        <div class="form-row">
+
+          <div class="form-group">
+            <label>Brand</label>
+            <select id="brandSelect" required>
+              <option value="">Select brand...</option>
+              <option>Tylenol</option>
+              <option>Advil</option>
+              <option>Aleve</option>
+              <option>Claritin</option>
+              <option>Zyrtec</option>
+              <option>Benadryl</option>
+              <option>Pepto-Bismol</option>
+              <option>Tums</option>
+              <option>Imodium</option>
+              <option>Mucinex</option>
+              <option>Robitussin</option>
+              <option>DayQuil</option>
+              <option>NyQuil</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Dosage form</label>
+            <select id="dosageSelect" required>
+              <option value="">Tablet / Capsule / Syrup...</option>
+              <option>Tablet</option>
+              <option>Capsule</option>
+              <option>Liquid</option>
+              <option>Syrup</option>
+              <option>Chewable</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Type -->
+        <div class="form-group">
+          <label>Type</label>
+          <select id="typeSelect" required>
+            <option value="">Pain Reliever / Antihistamine...</option>
+            <option>Pain Reliever</option>
+            <option>Antihistamine</option>
+            <option>Cold & Flu Relief</option>
+            <option>Cough Suppressant</option>
+            <option>Digestive Relief</option>
+            <option>Anti-Diarrheal</option>
+            <option>Antacid</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="create-btn" type="submit">Create</button>
+
+      </form>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+  document.getElementById("addForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("medName").value.trim();
+    const brand = document.getElementById("brandSelect").value;
+    const dosage = document.getElementById("dosageSelect").value;
+    const type = document.getElementById("typeSelect").value;
+
+    if (!name || !brand || !dosage || !type) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    alert(`Medicine added:\n${name}\n${brand}\n${type}\n${dosage}`);
+  });
+</script>
+
+</body>
+</html>
