@@ -1,11 +1,15 @@
 import pg from "pg";
+import dotenv from "dotenv";
 
+dotenv.config();
+
+//put your info in .env. Or here i guess if youre not committing anything lol
 export const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "412Project",  //make sure the database name matches. 
-  password: "placeholder", //put in your superuser password, to those who use this.
-  port: 5432,
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
 });
 
 db.connect()
