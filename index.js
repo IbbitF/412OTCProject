@@ -59,6 +59,45 @@ app.get("/create-account", (req, res) => {
   res.render("createAccount");
 });
 
+app.post("/create-account", async (req, res) => {
+  const { username, password, confirmPassword } = req.body;
+
+  // Basic validation
+  if (!username || !password || !confirmPassword) {
+    return res.render("createAccount", { error: "All fields are required." });
+  }
+
+  if (password !== confirmPassword) {
+    return res.render("createAccount", { error: "Passwords do not match." });
+  }
+
+  try {
+    //Check if username already exists
+    const existing = await db.query(
+      "SELECT * FROM Users WHERE username = $1",
+      [username]
+    );
+
+    if (existing.rows.length > 0) {
+      return res.render("createAccount", { error: "Username already taken." });
+    }
+
+    //Insert new user
+    await db.query(
+      "INSERT INTO Users (username, password) VALUES ($1, $2)",
+      [username, password]
+    );
+
+    //Redirect to login after successful signup
+    res.redirect("/login");
+
+  } catch (err) {
+    console.error(err);
+    res.render("createAccount", { error: "Server error occurred." });
+  }
+});
+
+
 // Temporary placeholder routes for other pages
 app.get("/dashboard", (req, res) => res.render("dashboard"));
 app.get("/browse", (req, res) => res.render("browse"));
