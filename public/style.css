@@ -300,3 +300,11 @@ input:focus {
     flex-direction: column;
   }
 }
+
+/* Fix for the browse table being too large */
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}

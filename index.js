@@ -1,3 +1,4 @@
+//Packages from Node for server setup and postgres integration
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+//made 2 routes just in case to render login as the start
 app.get("/", (req, res) => {
   res.render("login");
 });
@@ -27,6 +29,7 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+//posts name and password to database to compare (authorization not to be used in a real website lol)
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -49,20 +52,23 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//for now just renders the dashboard with the user's ID
 app.get("/dashboard", async (req, res) => {
   const userId = req.query.user;
 
   res.render("dashboard", { userId });
 });
 
+//just renders the create account page
 app.get("/create-account", (req, res) => {
   res.render("createAccount");
 });
 
+//
 app.post("/create-account", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
-  // Basic validation
+  //Basic validation (the authorization for the website is not valid lol but its just for a project)
   if (!username || !password || !confirmPassword) {
     return res.render("createAccount", { error: "All fields are required." });
   }
@@ -97,14 +103,107 @@ app.post("/create-account", async (req, res) => {
   }
 });
 
+app.get("/browse", async (req, res) => {
+  const userId = req.query.user;  //uses userID from login
 
-// Temporary placeholder routes for other pages
-app.get("/dashboard", (req, res) => res.render("dashboard"));
-app.get("/browse", (req, res) => res.render("browse"));
-app.get("/add-medicine", (req, res) => res.render("addMedicine"));
-app.get("/my-medicine", (req, res) => res.render("myMedicine"));
+  try {
+    const result = await db.query(`
+      SELECT Medicine.id, Medicine.name AS med_name, Medicine.type, Brand.name AS brand_name
+      FROM Medicine
+      JOIN Brand ON Medicine.brandID = Brand.id
+      ORDER BY Medicine.name ASC;
+    `);
 
-// Start server
+    res.render("browse", {
+      medicines: result.rows,
+      userId: userId 
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.render("browse", { medicines: [], userId });
+  }
+});
+
+//Takes medicine from ID to autofill the page
+//Assigns the medicine to the UserMedicine with the associated userID
+app.get("/add-medicine", async (req, res) => {
+  const medId = req.query.med;
+  const userId = req.query.user;
+
+  if (!medId) {
+    return res.render("addMedicine", { medicine: null, userId });
+  }
+
+  try {
+    const result = await db.query(`
+      SELECT Medicine.id, Medicine.name, Medicine.type, Brand.name AS brand
+      FROM Medicine
+      JOIN Brand ON Medicine.brandID = Brand.id
+      WHERE Medicine.id = $1
+    `, [medId]);
+
+    res.render("addMedicine", { medicine: result.rows[0], userId });
+
+  } catch (err) {
+    console.error(err);
+    res.render("addMedicine", { medicine: null, userId });
+  }
+});
+
+//posts the info from above
+app.post("/save-medicine", async (req, res) => {
+  const { userID, medicineID, dosage, notes } = req.body;
+
+  try {
+    await db.query(
+      `INSERT INTO UserMedicine (userID, medicineID, dosageForm, notes)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (userID, medicineID) DO NOTHING`,
+      [userID, medicineID, dosage, notes]
+    );
+
+    res.redirect("/my-medicine?user=" + userID);
+
+  } catch (err) {
+    console.error("Error saving:", err);
+    res.send("Error saving medicine");
+  }
+});
+
+//Simply lists the medicine associated with the UserMedicine ID
+app.get("/my-medicine", async (req, res) => {
+  const userId = req.query.user;
+
+  try {
+    const result = await db.query(`
+      SELECT 
+        Medicine.name AS med_name,
+        Brand.name AS brand_name,
+        Medicine.type,
+        UserMedicine.dosageForm,
+        UserMedicine.notes
+      FROM UserMedicine
+      JOIN Medicine ON UserMedicine.medicineID = Medicine.id
+      JOIN Brand ON Medicine.brandID = Brand.id
+      WHERE UserMedicine.userID = $1
+      ORDER BY Medicine.name ASC;
+    `, [userId]);
+
+    res.render("myMedicines", {
+      userId: userId,
+      medicines: result.rows
+    });
+
+  } catch (err) {
+    console.error("Error loading saved medicines:", err);
+    res.render("myMedicine", { medicines: [], userId });
+  }
+});
+
+
+//Start server (copy pasted from the angela yu web dev course I took)
+//tbh most of what i have in here is modeled from that
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

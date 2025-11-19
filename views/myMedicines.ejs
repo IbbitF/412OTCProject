@@ -1,113 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Medicines</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Medicines</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2>Medicine Tracker</h2>
+        <nav>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/browse">Browse Medicines</a>
+          <a href="/my-medicine?user=<%= userId %>" class="active"
+            >My Medicines</a
+          >
+          <a href="/add-medicine">Add Medicine</a>
+          <a href="/">Logout</a>
+        </nav>
+      </aside>
 
-<div class="dashboard">
+      <!-- Main content -->
+      <main class="main-content">
+        <h1>My medicines</h1>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <h2>Medicine Tracker</h2>
-    <nav>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/browse">Browse Medicines</a>
-      <a href="/my-medicines" class="active">My Medicines</a>
-      <a href="/add-medicine">Add Medicine</a>
-      <a href="/">Logout</a>
-    </nav>
-  </aside>
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="filter-box">
+            <label>Brand</label>
+            <select id="brandFilter">
+              <option>Any brand</option>
+              <option>Tylenol</option>
+              <option>Robitussin</option>
+              <option>Imodium</option>
+            </select>
+          </div>
 
-  <!-- Main content -->
-  <main class="main-content">
+          <div class="filter-box">
+            <label>Type</label>
+            <select id="typeFilter">
+              <option>Any type</option>
+              <option>Pain Reliever</option>
+              <option>Cough Suppressant</option>
+              <option>Anti-Diarrheal</option>
+            </select>
+          </div>
 
-    <h1>My medicines</h1>
+          <div class="filter-box">
+            <label>Dosage</label>
+            <select id="dosageFilter">
+              <option>Any dosage</option>
+              <option>Tablet</option>
+              <option>Syrup</option>
+            </select>
+          </div>
 
-    <!-- Filters -->
-    <div class="filter-bar">
-      
-      <div class="filter-box">
-        <label>Brand</label>
-        <select id="brandFilter">
-          <option>Any brand</option>
-          <option>Tylenol</option>
-          <option>Robitussin</option>
-          <option>Imodium</option>
-        </select>
-      </div>
+          <button class="apply-btn">Apply</button>
+        </div>
 
-      <div class="filter-box">
-        <label>Type</label>
-        <select id="typeFilter">
-          <option>Any type</option>
-          <option>Pain Reliever</option>
-          <option>Cough Suppressant</option>
-          <option>Anti-Diarrheal</option>
-        </select>
-      </div>
+        <!-- Table -->
+        <table class="med-table">
+          <thead>
+            <tr>
+              <th>Medicine</th>
+              <th>Brand</th>
+              <th>Type</th>
+              <th>Dosage</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
 
-      <div class="filter-box">
-        <label>Dosage</label>
-        <select id="dosageFilter">
-          <option>Any dosage</option>
-          <option>Tablet</option>
-          <option>Syrup</option>
-        </select>
-      </div>
-
-      <button class="apply-btn">Apply</button>
+          <tbody>
+            <% medicines.forEach(med => { %>
+            <tr>
+              <td><%= med.med_name %></td>
+              <td><%= med.brand_name %></td>
+              <td><%= med.type %></td>
+              <td><%= med.dosageform %></td>
+              <td><%= med.notes %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </main>
     </div>
 
-    <!-- Table -->
-    <table class="med-table">
-      <thead>
-      <tr>
-        <th>Medicine</th>
-        <th>Brand</th>
-        <th>Type</th>
-        <th>Dosage</th>
-        <th>Notes</th>
-      </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>Tylenol Extra Strength</td>
-          <td>Tylenol</td>
-          <td>Pain Reliever</td>
-          <td>Tablet</td>
-          <td>Used for migraines</td>
-        </tr>
-
-        <tr>
-          <td>Robitussin Honey</td>
-          <td>Robitussin</td>
-          <td>Cough Suppressant</td>
-          <td>Syrup</td>
-          <td>Night only</td>
-        </tr>
-
-        <tr>
-          <td>Imodium A-D</td>
-          <td>Imodium</td>
-          <td>Anti-Diarrheal</td>
-          <td>Tablet</td>
-          <td>Take when traveling</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </main>
-</div>
-
-<script>
-  document.querySelector(".apply-btn").addEventListener("click", () => {
-    alert("Filters applied! (frontend only)");
-  });
-</script>
-
-</body>
+    <script>
+      document.querySelector(".apply-btn").addEventListener("click", () => {
+        alert("Filters applied! (frontend only)");
+      });
+    </script>
+  </body>
 </html>
