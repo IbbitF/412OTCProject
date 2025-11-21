@@ -52,12 +52,62 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//for now just renders the dashboard with the user's ID
 app.get("/dashboard", async (req, res) => {
   const userId = req.query.user;
 
-  res.render("dashboard", { userId });
+  try {
+    //Get coun
+    const countResult = await db.query(
+      `SELECT COUNT(*) 
+       AS saved_count 
+       FROM UserMedicine 
+       WHERE userID = $1`,
+      [userId]
+    );
+
+    //Find top brand for this user
+    const brandResult = await db.query(
+      `SELECT Brand.name, COUNT(*) AS freq
+       FROM UserMedicine
+       JOIN Medicine ON UserMedicine.medicineID = Medicine.id
+       JOIN Brand ON Medicine.brandID = Brand.id
+       WHERE UserMedicine.userID = $1
+       GROUP BY Brand.name
+       ORDER BY freq DESC
+       LIMIT 1;`,
+      [userId]
+    );
+
+    //Get most common type
+    const typeResult = await db.query(
+      `SELECT Medicine.type, COUNT(*) AS freq
+       FROM UserMedicine
+       JOIN Medicine ON UserMedicine.medicineID = Medicine.id
+       WHERE UserMedicine.userID = $1
+       GROUP BY Medicine.type
+       ORDER BY freq DESC
+       LIMIT 1;`,
+      [userId]
+    );
+
+    res.render("dashboard", {
+      userId: userId,
+      savedCount: countResult.rows[0].saved_count,
+      topBrand: brandResult.rows.length ? brandResult.rows[0].name : "None",
+      commonType: typeResult.rows.length ? typeResult.rows[0].type : "None"
+    });
+
+  } catch (err) {
+    console.error("Dashboard error:", err);
+    res.render("dashboard", {
+      userId,
+      savedCount: 0,
+      topBrand: "N/A",
+      commonType: "N/A"
+    });
+  }
 });
+
 
 //just renders the create account page
 app.get("/create-account", (req, res) => {
@@ -197,7 +247,7 @@ app.get("/my-medicine", async (req, res) => {
 
   } catch (err) {
     console.error("Error loading saved medicines:", err);
-    res.render("myMedicine", { medicines: [], userId });
+    res.render("myMedicines", { medicines: [], userId });
   }
 });
 

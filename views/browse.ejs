@@ -11,10 +11,12 @@
       <aside class="sidebar">
         <h2>Medicine Tracker</h2>
         <nav>
-          <a href="/dashboard">Dashboard</a>
-          <a href="/browse" class="active">Browse Medicines</a>
-          <a href="/my-medicine">My Medicines</a>
-          <a href="/add-medicine">Add Medicine</a>
+          <a href="/dashboard?user=<%= userId %>">Dashboard</a>
+          <a href="/browse?user=<%= userId %>" class="active"
+            >Browse Medicines</a
+          >
+          <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
+          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a>
           <a href="/">Logout</a>
         </nav>
       </aside>

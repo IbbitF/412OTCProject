@@ -1,132 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Add Medicine</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-
-<div class="dashboard">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <h2>Medicine Tracker</h2>
-    <nav>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/browse">Browse Medicines</a>
-      <a href="/my-medicine">My Medicines</a>
-      <a href="/add-medicine" class="active">Add Medicine</a>
-      <a href="/login">Logout</a>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="main-content">
-
-    <h1>Add medicine</h1>
-
-    <div class="add-box">
-
-      <form action="/save-medicine" method="POST">
-        <input type="hidden" name="userID" value="<%= userId %>">
-        <input type="hidden" name="medicineID" value="<%= medicine ? medicine.id : '' %>">
-
-        <!-- Name -->
-        <div class="form-group">
-          <label>Name</label>
-          <input 
-            type="text"
-            name="name"
-            value="<%= medicine ? medicine.name : '' %>"
-            placeholder="Enter medicine name..."
-            required
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Medicine</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2>Medicine Tracker</h2>
+        <nav>
+          <a href="/dashboard?user=<%= userId %>">Dashboard</a>
+          <a href="/browse?user=<%= userId %>">Browse Medicines</a>
+          <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
+          <a href="/add-medicine?user=<%= userId %>" class="active"
+            >Add Medicine</a
           >
+          <a href="/">Logout</a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <h1>Add medicine</h1>
+
+        <div class="add-box">
+          <form action="/save-medicine" method="POST">
+            <input type="hidden" name="userID" value="<%= userId %>" />
+            <input
+              type="hidden"
+              name="medicineID"
+              value="<%= medicine ? medicine.id : '' %>"
+            />
+
+            <!-- Name -->
+            <div class="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value="<%= medicine ? medicine.name : '' %>"
+                placeholder="Enter medicine name..."
+                required
+              />
+            </div>
+
+            <!-- Brand + Dosage Row -->
+            <div class="form-row">
+              <!-- Brand -->
+              <div class="form-group">
+                <label>Brand</label>
+                <select name="brand" required>
+                  <% if (medicine) { %>
+                  <option selected><%= medicine.brand %></option>
+                  <% } else { %>
+                  <option value="">Select brand...</option>
+                  <% } %>
+
+                  <!-- Full list of brands -->
+                  <option>Tylenol</option>
+                  <option>Advil</option>
+                  <option>Aleve</option>
+                  <option>Claritin</option>
+                  <option>Zyrtec</option>
+                  <option>Benadryl</option>
+                  <option>Pepto-Bismol</option>
+                  <option>Tums</option>
+                  <option>Imodium</option>
+                  <option>Mucinex</option>
+                  <option>Robitussin</option>
+                  <option>DayQuil</option>
+                  <option>NyQuil</option>
+                </select>
+              </div>
+
+              <!-- Dosage -->
+              <div class="form-group">
+                <label>Dosage Form</label>
+                <select name="dosage" required>
+                  <option value="">Tablet / Capsule / Syrup...</option>
+                  <option>Tablet</option>
+                  <option>Capsule</option>
+                  <option>Liquid</option>
+                  <option>Syrup</option>
+                  <option>Chewable</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Type -->
+            <div class="form-group">
+              <label>Type</label>
+              <select name="type" required>
+                <% if (medicine) { %>
+                <option selected><%= medicine.type %></option>
+                <% } else { %>
+                <option value="">Pain Reliever / Antihistamine...</option>
+                <% } %>
+
+                <option>Pain Reliever</option>
+                <option>Antihistamine</option>
+                <option>Cold & Flu Relief</option>
+                <option>Cough Suppressant</option>
+                <option>Digestive</option>
+                <option>Anti-Diarrheal</option>
+                <option>Antacid</option>
+              </select>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group">
+              <label>Notes (optional)</label>
+              <textarea
+                name="notes"
+                placeholder="Add any notes..."
+                rows="3"
+              ></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button class="create-btn" type="submit">Save to My List</button>
+          </form>
         </div>
-
-        <!-- Brand + Dosage Row -->
-        <div class="form-row">
-
-          <!-- Brand -->
-          <div class="form-group">
-            <label>Brand</label>
-            <select name="brand" required>
-              <% if (medicine) { %>
-                <option selected><%= medicine.brand %></option>
-              <% } else { %>
-                <option value="">Select brand...</option>
-              <% } %>
-
-              <!-- Full list of brands -->
-              <option>Tylenol</option>
-              <option>Advil</option>
-              <option>Aleve</option>
-              <option>Claritin</option>
-              <option>Zyrtec</option>
-              <option>Benadryl</option>
-              <option>Pepto-Bismol</option>
-              <option>Tums</option>
-              <option>Imodium</option>
-              <option>Mucinex</option>
-              <option>Robitussin</option>
-              <option>DayQuil</option>
-              <option>NyQuil</option>
-            </select>
-          </div>
-
-          <!-- Dosage -->
-          <div class="form-group">
-            <label>Dosage Form</label>
-            <select name="dosage" required>
-              <option value="">Tablet / Capsule / Syrup...</option>
-              <option>Tablet</option>
-              <option>Capsule</option>
-              <option>Liquid</option>
-              <option>Syrup</option>
-              <option>Chewable</option>
-            </select>
-          </div>
-
-        </div>
-
-        <!-- Type -->
-        <div class="form-group">
-          <label>Type</label>
-          <select name="type" required>
-            <% if (medicine) { %>
-              <option selected><%= medicine.type %></option>
-            <% } else { %>
-              <option value="">Pain Reliever / Antihistamine...</option>
-            <% } %>
-
-            <option>Pain Reliever</option>
-            <option>Antihistamine</option>
-            <option>Cold & Flu Relief</option>
-            <option>Cough Suppressant</option>
-            <option>Digestive</option>
-            <option>Anti-Diarrheal</option>
-            <option>Antacid</option>
-          </select>
-        </div>
-
-        <!-- Notes -->
-        <div class="form-group">
-          <label>Notes (optional)</label>
-          <textarea 
-            name="notes"
-            placeholder="Add any notes..."
-            rows="3"
-          ></textarea>
-        </div>
-
-        <!-- Submit -->
-        <button class="create-btn" type="submit">Save to My List</button>
-
-      </form>
+      </main>
     </div>
-
-  </main>
-</div>
-
-</body>
+  </body>
 </html>

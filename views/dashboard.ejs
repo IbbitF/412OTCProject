@@ -12,10 +12,10 @@
       <aside class="sidebar">
         <h2>Medicine Tracker</h2>
         <nav>
-          <a href="/dashboard" class="active">Dashboard</a>
+          <a href="/dashboard?user=<%= userId %>" class="active">Dashboard</a>
           <a href="/browse?user=<%= userId %>">Browse Medicines</a>
           <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
-          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a> 
+          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a>
           <a href="/login">Logout</a>
         </nav>
       </aside>
@@ -28,23 +28,29 @@
         <div class="summary">
           <div class="card">
             <p>Saved medicines</p>
-            <h2 id="savedCount">18</h2>
+            <h2 id="savedCount"><%= savedCount %></h2>
           </div>
           <div class="card">
             <p>Top brand</p>
-            <h2 id="topBrand">Tylenol</h2>
+            <h2 id="topBrand"><%= topBrand %></h2>
           </div>
           <div class="card">
             <p>Common type</p>
-            <h2 id="commonType">Pain reliever</h2>
+            <h2 id="commonType"><%= commonType %></h2>
           </div>
         </div>
 
         <!-- Buttons -->
         <div class="actions">
-          <button onclick="location.href='/browse?user=<%= userId %>'">Browse</button>
-          <button onclick="location.href='/my-medicine'">My list</button>
-          <button onclick="location.href='/add-medicine'">Add medicine</button>
+          <button onclick="location.href='/browse?user=<%= userId %>'">
+            Browse
+          </button>
+          <button onclick="location.href='/my-medicine?user=<%= userId %>'">
+            My list
+          </button>
+          <button onclick="location.href='/add-medicine?user=<%= userId %>'">
+            Add medicine
+          </button>
         </div>
       </main>
     </div>
