@@ -26,48 +26,65 @@
         <h1>Browse medicines</h1>
 
         <!-- Filter bar -->
-        <div class="filter-bar">
+        <form class="filter-bar" method="GET" action="/browse">
+          <input type="hidden" name="user" value="<%= userId %>" />
           <div class="filter-box">
             <label>Search</label>
             <input
               type="text"
-              id="searchInput"
+              name="search"
               placeholder="Type a medicine name…"
+              value="<%= search || '' %>"
             />
           </div>
 
           <div class="filter-box">
             <label>Brand</label>
-            <select id="brandSelect">
-              <option>Any brand</option>
-              <option>Tylenol</option>
-              <option>Claritin</option>
-              <option>Imodium</option>
+            <select name="brand">
+              <option value="">Any brand</option>
+
+              <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>
+                Tylenol
+              </option>
+
+              <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>
+                Claritin
+              </option>
+
+              <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>
+                Imodium
+              </option>
+
+              <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>
+                Advil
+              </option>
+
+              <option value="Zyrtec" <%= brand === "Zyrtec" ? "selected" : "" %>>
+                Zyrtec
+              </option>
             </select>
           </div>
 
           <div class="filter-box">
             <label>Type</label>
-            <select id="typeSelect">
-              <option>Any type</option>
-              <option>Pain Reliever</option>
-              <option>Antihistamine</option>
-              <option>Anti-Diarrheal</option>
+            <select name="type">
+              <option value="">Any type</option>
+
+              <option value="Pain Reliever" <%= type === "Pain Reliever" ? "selected" : "" %>>
+                Pain Reliever
+              </option>
+
+              <option value="Antihistamine" <%= type === "Antihistamine" ? "selected" : "" %>>
+                Antihistamine
+              </option>
+
+              <option value="Cold/Flu" <%= type === "Cold/Flu" ? "selected" : "" %>>
+                Cold & Flu Relief
+              </option>
             </select>
           </div>
-
-          <div class="filter-box">
-            <label>Dosage</label>
-            <select id="dosageSelect">
-              <option>Any dosage</option>
-              <option>Tablet</option>
-              <option>Capsule</option>
-              <option>Liquid</option>
-            </select>
-          </div>
-
-          <button class="apply-btn">Apply</button>
-        </div>
+          <button class="apply-btn" type="submit">Apply</button>
+        </form>
 
         <!-- Table -->
         <div class="table-wrapper">
@@ -106,10 +123,6 @@
     </div>
 
     <script>
-      // simple demo
-      document.querySelector(".apply-btn").addEventListener("click", () => {
-        alert("Filters applied! (frontend only)");
-      });
     </script>
   </body>
 </html>

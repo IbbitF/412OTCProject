@@ -26,38 +26,77 @@
         <h1>My medicines</h1>
 
         <!-- Filters -->
-        <div class="filter-bar">
+        <form class="filter-bar" method="GET" action="/my-medicine">
+          <input type="hidden" name="user" value="<%= userId %>" />
           <div class="filter-box">
-            <label>Brand</label>
-            <select id="brandFilter">
-              <option>Any brand</option>
-              <option>Tylenol</option>
-              <option>Robitussin</option>
-              <option>Imodium</option>
-            </select>
-          </div>
+            <select name="brand">
+            <option value="">Any brand</option>
+            <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>
+              Tylenol
+            </option>
+            <option value="Robitussin" <%= brand === "Robitussin" ? "selected" : "" %>>
+              Robitussin
+            </option>
+            <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>
+              Imodium
+            </option>
+            <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>
+              Advil
+            </option>
+            <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>
+              Claritin
+            </option>
+          </select>
+        </div>
 
           <div class="filter-box">
             <label>Type</label>
-            <select id="typeFilter">
-              <option>Any type</option>
-              <option>Pain Reliever</option>
-              <option>Cough Suppressant</option>
-              <option>Anti-Diarrheal</option>
+            <select name="type">
+              <option value="">Any type</option>
+
+              <option value="Pain Reliever" <%= type === "Pain Reliever" ? "selected" : "" %>>
+                Pain Reliever
+              </option>
+
+              <option value="Cough" <%= type === "Cough" ? "selected" : "" %>>
+                Cough Suppressant
+              </option>
+
+              <option value="Anti-Diarrheal" <%= type === "Anti-Diarrheal" ? "selected" : "" %>>
+                Anti-Diarrheal
+              </option>
+
+              <option value="Antihistamine" <%= type === "Antihistamine" ? "selected" : "" %>>
+                Antihistamine
+              </option>
             </select>
           </div>
 
           <div class="filter-box">
             <label>Dosage</label>
-            <select id="dosageFilter">
-              <option>Any dosage</option>
-              <option>Tablet</option>
-              <option>Syrup</option>
+              <select name="dosage">
+                <option value="">Any dosage</option>
+
+                <option value="Tablet" <%= dosage === "Tablet" ? "selected" : "" %>>
+                  Tablet
+                </option>
+
+                <option value="Syrup" <%= dosage === "Syrup" ? "selected" : "" %>>
+                  Syrup
+                </option>
+
+                <option value="Capsule" <%= dosage === "Capsule" ? "selected" : "" %>>
+                  Capsule
+                </option>
+
+                <option value="Liquid" <%= dosage === "Liquid" ? "selected" : "" %>>
+                  Liquid
+                </option>
             </select>
           </div>
 
-          <button class="apply-btn">Apply</button>
-        </div>
+          <button class="apply-btn" type="submit">Apply</button>
+        </form>
 
         <!-- Table -->
         <table class="med-table">
@@ -87,9 +126,6 @@
     </div>
 
     <script>
-      document.querySelector(".apply-btn").addEventListener("click", () => {
-        alert("Filters applied! (frontend only)");
-      });
     </script>
   </body>
 </html>

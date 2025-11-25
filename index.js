@@ -56,7 +56,7 @@ app.get("/dashboard", async (req, res) => {
   const userId = req.query.user;
 
   try {
-    //Get coun
+    //Get count
     const countResult = await db.query(
       `SELECT COUNT(*) 
        AS saved_count 
@@ -155,22 +155,49 @@ app.post("/create-account", async (req, res) => {
 
 app.get("/browse", async (req, res) => {
   const userId = req.query.user;  //uses userID from login
+  const search = req.query.search || "";
+  const brand = req.query.brand || "";
+  const type = req.query.type || "";
 
   try {
-    const result = await db.query(`
+    let query = `
       SELECT Medicine.id, Medicine.name AS med_name, Medicine.type, Brand.name AS brand_name
       FROM Medicine
       JOIN Brand ON Medicine.brandID = Brand.id
-      ORDER BY Medicine.name ASC;
-    `);
+      WHERE 1 = 1
+    `;
+
+    let params = [];
+
+    if (search) {
+      params.push(`%${search}%`);
+      query += ` AND Medicine.name ILIKE $${params.length}`;
+    }
+
+    if (brand) {
+      params.push(brand);
+      query += ` AND Brand.name = $${params.length}`;
+    }
+
+    if (type) {
+      params.push(type);
+      query += ` AND Medicine.type = $${params.length}`;
+    }
+
+    query += ` ORDER BY Medicine.name ASC`;
+
+    const result = await db.query(query, params);
 
     res.render("browse", {
       medicines: result.rows,
-      userId: userId 
+      userId,
+      search,
+      brand,
+      type
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Error loading medicines:", err);
     res.render("browse", { medicines: [], userId });
   }
 });
@@ -224,9 +251,12 @@ app.post("/save-medicine", async (req, res) => {
 //Simply lists the medicine associated with the UserMedicine ID
 app.get("/my-medicine", async (req, res) => {
   const userId = req.query.user;
+  const brand = req.query.brand || "";
+  const type = req.query.type || "";
+  const dosage = req.query.dosage || "";
 
   try {
-    const result = await db.query(`
+    let query = `
       SELECT 
         Medicine.name AS med_name,
         Brand.name AS brand_name,
@@ -237,17 +267,46 @@ app.get("/my-medicine", async (req, res) => {
       JOIN Medicine ON UserMedicine.medicineID = Medicine.id
       JOIN Brand ON Medicine.brandID = Brand.id
       WHERE UserMedicine.userID = $1
-      ORDER BY Medicine.name ASC;
-    `, [userId]);
+    `;
+    
+    let params = [userId];
+
+    if (brand) {
+      params.push(brand);
+      query += ` AND Brand.name = $${params.length}`;
+    }
+
+    if (type) {
+      params.push(type);
+      query += ` AND Medicine.type = $${params.length}`;
+    }
+
+    if (dosage) {
+      params.push(dosage);
+      query += ` AND UserMedicine.dosageForm = $${params.length}`;
+    }
+
+    query += ` ORDER BY Medicine.name ASC`;
+
+    const result = await db.query(query, params);
 
     res.render("myMedicines", {
-      userId: userId,
-      medicines: result.rows
+      userId,
+      medicines: result.rows,
+      brand,
+      type,
+      dosage
     });
 
   } catch (err) {
     console.error("Error loading saved medicines:", err);
-    res.render("myMedicines", { medicines: [], userId });
+    res.render("myMedicines", {
+      userId,
+      medicines: [],
+      brand,
+      type,
+      dosage
+    });
   }
 });
 
