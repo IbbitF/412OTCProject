@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Medicine</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+  <aside class="sidebar">
+    <h2>Medicine Tracker</h2>
+    <nav>
+      <a href="/dashboard?user=<%= userId %>">Dashboard</a>
+      <a href="/browse?user=<%= userId %>">Browse</a>
+      <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
+      <a href="/">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <h1>Edit medicine</h1>
+
+    <div class="add-box">
+      <form action="/update-medicine" method="POST">
+
+        <input type="hidden" name="userID" value="<%= userId %>">
+        <input type="hidden" name="medicineID" value="<%= medicine.id %>">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" value="<%= medicine.name %>" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Brand</label>
+          <input type="text" value="<%= medicine.brand %>" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" value="<%= medicine.type %>" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Dosage Form</label>
+          <select name="dosage" required>
+            <option <%= medicine.dosageform === "Tablet" ? "selected" : "" %> >Tablet</option>
+            <option <%= medicine.dosageform === "Capsule" ? "selected" : "" %> >Capsule</option>
+            <option <%= medicine.dosageform === "Liquid" ? "selected" : "" %> >Liquid</option>
+            <option <%= medicine.dosageform === "Syrup" ? "selected" : "" %> >Syrup</option>
+            <option <%= medicine.dosageform === "Chewable" ? "selected" : "" %> >Chewable</option>
+          </select>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea name="notes" rows="3"><%= medicine.notes %></textarea>
+        </div>
+
+        <button class="create-btn" type="submit">Save Changes</button>
+      </form>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

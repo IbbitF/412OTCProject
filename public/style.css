@@ -302,9 +302,36 @@ input:focus {
 }
 
 /* Fix for the browse table being too large */
+/* mfw the backend developer (me) who has no design theory (also me) has to make classes */
 .table-wrapper {
   max-height: 400px;
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
+}
+
+.delete-btn {
+  padding: 9px 18px;
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: brown;
+}
+
+.edit-btn {
+  padding: 9px 18px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: darkgray;
 }

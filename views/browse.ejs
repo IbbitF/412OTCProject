@@ -16,7 +16,6 @@
             >Browse Medicines</a
           >
           <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
-          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a>
           <a href="/">Logout</a>
         </nav>
       </aside>
@@ -26,6 +25,7 @@
         <h1>Browse medicines</h1>
 
         <!-- Filter bar -->
+         <!--i hardcoded all these filters bruh idc LOL if i made a real website ill do sumn ab it-->
         <form class="filter-bar" method="GET" action="/browse">
           <input type="hidden" name="user" value="<%= userId %>" />
           <div class="filter-box">
@@ -43,25 +43,19 @@
             <select name="brand">
               <option value="">Any brand</option>
 
-              <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>
-                Tylenol
-              </option>
-
-              <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>
-                Claritin
-              </option>
-
-              <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>
-                Imodium
-              </option>
-
-              <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>
-                Advil
-              </option>
-
-              <option value="Zyrtec" <%= brand === "Zyrtec" ? "selected" : "" %>>
-                Zyrtec
-              </option>
+              <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>Tylenol</option>
+              <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>Advil</option>
+              <option value="Aleve" <%= brand === "Aleve" ? "selected" : "" %>>Aleve</option>
+              <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>Claritin</option>
+              <option value="Zyrtec" <%= brand === "Zyrtec" ? "selected" : "" %>>Zyrtec</option>
+              <option value="Benadryl" <%= brand === "Benadryl" ? "selected" : "" %>>Benadryl</option>
+              <option value="Pepto-Bismol" <%= brand === "Pepto-Bismol" ? "selected" : "" %>>Pepto-Bismol</option>
+              <option value="Tums" <%= brand === "Tums" ? "selected" : "" %>>Tums</option>
+              <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>Imodium</option>
+              <option value="Mucinex" <%= brand === "Mucinex" ? "selected" : "" %>>Mucinex</option>
+              <option value="Robitussin" <%= brand === "Robitussin" ? "selected" : "" %>>Robitussin</option>
+              <option value="DayQuil" <%= brand === "DayQuil" ? "selected" : "" %>>DayQuil</option>
+              <option value="NyQuil" <%= brand === "NyQuil" ? "selected" : "" %>>NyQuil</option>
             </select>
           </div>
 
@@ -81,6 +75,18 @@
               <option value="Cold/Flu" <%= type === "Cold/Flu" ? "selected" : "" %>>
                 Cold & Flu Relief
               </option>
+
+                  <option value="Cough" <%= type === "Cough" ? "selected" : "" %>>
+                  Cough Suppressant
+                </option>
+
+                <option value="Digestive" <%= type === "Digestive" ? "selected" : "" %>>
+                  Digestive Relief
+                </option>
+
+                <option value="Antacid" <%= type === "Antacid" ? "selected" : "" %>>
+                  Antacid
+                </option>
             </select>
           </div>
           <button class="apply-btn" type="submit">Apply</button>
@@ -94,7 +100,6 @@
                 <th>Name</th>
                 <th>Brand</th>
                 <th>Type</th>
-                <th>Dosage</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -105,7 +110,6 @@
                 <td><%= med.med_name %></td>
                 <td><%= med.brand_name %></td>
                 <td><%= med.type %></td>
-                <td>—</td>
                 <td>
                   <button
                     class="save-btn"

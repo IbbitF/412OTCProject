@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//i thought i was gonna need bodyparser but ig not
 
 //made 2 routes just in case to render login as the start
 app.get("/", (req, res) => {
@@ -114,7 +115,6 @@ app.get("/create-account", (req, res) => {
   res.render("createAccount");
 });
 
-//
 app.post("/create-account", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -153,6 +153,7 @@ app.post("/create-account", async (req, res) => {
   }
 });
 
+//browse page queries filters using all possible variables
 app.get("/browse", async (req, res) => {
   const userId = req.query.user;  //uses userID from login
   const search = req.query.search || "";
@@ -167,6 +168,7 @@ app.get("/browse", async (req, res) => {
       WHERE 1 = 1
     `;
 
+    //custom parameter array
     let params = [];
 
     if (search) {
@@ -184,6 +186,7 @@ app.get("/browse", async (req, res) => {
       query += ` AND Medicine.type = $${params.length}`;
     }
 
+    //sorted by name. no intentions of adding other sorting at this time
     query += ` ORDER BY Medicine.name ASC`;
 
     const result = await db.query(query, params);
@@ -208,8 +211,9 @@ app.get("/add-medicine", async (req, res) => {
   const medId = req.query.med;
   const userId = req.query.user;
 
+  //ensures no one is editing a medicine that doesnt exist
   if (!medId) {
-    return res.render("addMedicine", { medicine: null, userId });
+    return res.redirect("/browse?user=" + userId);
   }
 
   try {
@@ -230,13 +234,14 @@ app.get("/add-medicine", async (req, res) => {
 
 //posts the info from above
 app.post("/save-medicine", async (req, res) => {
-  const { userID, medicineID, dosage, notes } = req.body;
-
+  const { userID, medicineID, dosage, notes } = req.body
   try {
     await db.query(
       `INSERT INTO UserMedicine (userID, medicineID, dosageForm, notes)
        VALUES ($1, $2, $3, $4)
-       ON CONFLICT (userID, medicineID) DO NOTHING`,
+       ON CONFLICT (userID, medicineID)
+       DO UPDATE SET dosageForm = EXCLUDED.dosageForm,
+                     notes = EXCLUDED.notes`,
       [userID, medicineID, dosage, notes]
     );
 
@@ -248,16 +253,58 @@ app.post("/save-medicine", async (req, res) => {
   }
 });
 
-//Simply lists the medicine associated with the UserMedicine ID
+//only deletion occurs within usermedicine, never anywhere else.
+app.post("/delete-medicine", async (req, res) => {
+  const { userID, medicineID } = req.body;
+
+  try {
+    await db.query(
+      `DELETE FROM UserMedicine
+       WHERE userID = $1 AND medicineID = $2`,
+      [userID, medicineID]
+    );
+
+    res.redirect("/my-medicine?user=" + userID);
+
+  } catch (err) {
+    console.error("Error deleting medicine:", err);
+    res.send("Error deleting medicine");
+  }
+});
+
+//fulfilling da update quota :sillyface:
+app.post("/update-medicine", async (req, res) => {
+  const { userID, medicineID, dosage, notes } = req.body;
+
+  try {
+    await db.query(
+      `UPDATE UserMedicine
+       SET dosageForm = $1, notes = $2
+       WHERE userID = $3 AND medicineID = $4`,
+      [dosage, notes, userID, medicineID]
+    );
+
+    res.redirect("/my-medicine?user=" + userID);
+
+  } catch (err) {
+    console.error("Error updating:", err);
+    res.send("Error updating medicine");
+  }
+});
+
+
+//lists the medicine associated with the UserMedicine ID
 app.get("/my-medicine", async (req, res) => {
   const userId = req.query.user;
   const brand = req.query.brand || "";
   const type = req.query.type || "";
   const dosage = req.query.dosage || "";
 
+  //filter query logic from browse
   try {
     let query = `
-      SELECT 
+      SELECT
+        Medicine.id AS medicine_id,
         Medicine.name AS med_name,
         Brand.name AS brand_name,
         Medicine.type,
@@ -310,6 +357,37 @@ app.get("/my-medicine", async (req, res) => {
   }
 });
 
+//couldnt figure out inline editing so i just made a duplicate addmedicine page
+//this takes you to it and uses the same logic lol
+app.get("/edit-medicine", async (req, res) => {
+  const medId = req.query.med;
+  const userId = req.query.user;
+
+  try {
+    const result = await db.query(`
+      SELECT 
+        Medicine.id,
+        Medicine.name,
+        Medicine.type,
+        Brand.name AS brand,
+        UserMedicine.dosageForm,
+        UserMedicine.notes
+      FROM UserMedicine
+      JOIN Medicine ON UserMedicine.medicineID = Medicine.id
+      JOIN Brand ON Medicine.brandID = Brand.id
+      WHERE UserMedicine.userID = $1 AND Medicine.id = $2
+    `, [userId, medId]);
+
+    res.render("editMedicines", {
+      medicine: result.rows[0],
+      userId
+    });
+
+  } catch (err) {
+    console.error("Error loading medicine:", err);
+    res.redirect("/my-medicine?user=" + userId);
+  }
+});
 
 //Start server (copy pasted from the angela yu web dev course I took)
 //tbh most of what i have in here is modeled from that

@@ -42,6 +42,7 @@
                 name="name"
                 value="<%= medicine ? medicine.name : '' %>"
                 placeholder="Enter medicine name..."
+                <%= medicine ? "readonly" : "" %>
                 required
               />
             </div>
@@ -51,14 +52,12 @@
               <!-- Brand -->
               <div class="form-group">
                 <label>Brand</label>
-                <select name="brand" required>
+                <select name="brand" <%= medicine ? "disabled" : "" %> required>
                   <% if (medicine) { %>
                   <option selected><%= medicine.brand %></option>
                   <% } else { %>
                   <option value="">Select brand...</option>
-                  <% } %>
 
-                  <!-- Full list of brands -->
                   <option>Tylenol</option>
                   <option>Advil</option>
                   <option>Aleve</option>
@@ -72,7 +71,12 @@
                   <option>Robitussin</option>
                   <option>DayQuil</option>
                   <option>NyQuil</option>
+                  <% } %>
                 </select>
+                <% if (medicine) { %>
+                  <input type="hidden" name="brand" value="<%= medicine.brand %>">
+                <% } %>
+
               </div>
 
               <!-- Dosage -->
@@ -80,6 +84,7 @@
                 <label>Dosage Form</label>
                 <select name="dosage" required>
                   <option value="">Tablet / Capsule / Syrup...</option>
+
                   <option>Tablet</option>
                   <option>Capsule</option>
                   <option>Liquid</option>
@@ -97,7 +102,6 @@
                 <option selected><%= medicine.type %></option>
                 <% } else { %>
                 <option value="">Pain Reliever / Antihistamine...</option>
-                <% } %>
 
                 <option>Pain Reliever</option>
                 <option>Antihistamine</option>
@@ -106,7 +110,11 @@
                 <option>Digestive</option>
                 <option>Anti-Diarrheal</option>
                 <option>Antacid</option>
+                <% } %>
               </select>
+              <% if (medicine) { %>
+                <input type="hidden" name="type" value="<%= medicine.type %>">
+              <% } %>
             </div>
 
             <!-- Notes -->

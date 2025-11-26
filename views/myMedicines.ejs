@@ -16,7 +16,6 @@
           <a href="/my-medicine?user=<%= userId %>" class="active"
             >My Medicines</a
           >
-          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a>
           <a href="/">Logout</a>
         </nav>
       </aside>
@@ -26,26 +25,26 @@
         <h1>My medicines</h1>
 
         <!-- Filters -->
+         <!--i hardcoded all these filters bruh idc LOL if i made a real website ill do sumn ab it-->
         <form class="filter-bar" method="GET" action="/my-medicine">
           <input type="hidden" name="user" value="<%= userId %>" />
           <div class="filter-box">
+            <label>Brand</label>
             <select name="brand">
             <option value="">Any brand</option>
-            <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>
-              Tylenol
-            </option>
-            <option value="Robitussin" <%= brand === "Robitussin" ? "selected" : "" %>>
-              Robitussin
-            </option>
-            <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>
-              Imodium
-            </option>
-            <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>
-              Advil
-            </option>
-            <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>
-              Claritin
-            </option>
+            <option value="Tylenol" <%= brand === "Tylenol" ? "selected" : "" %>>Tylenol</option>
+            <option value="Advil" <%= brand === "Advil" ? "selected" : "" %>>Advil</option>
+            <option value="Aleve" <%= brand === "Aleve" ? "selected" : "" %>>Aleve</option>
+            <option value="Claritin" <%= brand === "Claritin" ? "selected" : "" %>>Claritin</option>
+            <option value="Zyrtec" <%= brand === "Zyrtec" ? "selected" : "" %>>Zyrtec</option>
+            <option value="Benadryl" <%= brand === "Benadryl" ? "selected" : "" %>>Benadryl</option>
+            <option value="Pepto-Bismol" <%= brand === "Pepto-Bismol" ? "selected" : "" %>>Pepto-Bismol</option>
+            <option value="Tums" <%= brand === "Tums" ? "selected" : "" %>>Tums</option>
+            <option value="Imodium" <%= brand === "Imodium" ? "selected" : "" %>>Imodium</option>
+            <option value="Mucinex" <%= brand === "Mucinex" ? "selected" : "" %>>Mucinex</option>
+            <option value="Robitussin" <%= brand === "Robitussin" ? "selected" : "" %>>Robitussin</option>
+            <option value="DayQuil" <%= brand === "DayQuil" ? "selected" : "" %>>DayQuil</option>
+            <option value="NyQuil" <%= brand === "NyQuil" ? "selected" : "" %>>NyQuil</option>
           </select>
         </div>
 
@@ -58,17 +57,25 @@
                 Pain Reliever
               </option>
 
-              <option value="Cough" <%= type === "Cough" ? "selected" : "" %>>
-                Cough Suppressant
-              </option>
-
-              <option value="Anti-Diarrheal" <%= type === "Anti-Diarrheal" ? "selected" : "" %>>
-                Anti-Diarrheal
-              </option>
-
               <option value="Antihistamine" <%= type === "Antihistamine" ? "selected" : "" %>>
                 Antihistamine
               </option>
+
+              <option value="Cold/Flu" <%= type === "Cold/Flu" ? "selected" : "" %>>
+                Cold & Flu Relief
+              </option>
+
+                  <option value="Cough" <%= type === "Cough" ? "selected" : "" %>>
+                  Cough Suppressant
+                </option>
+
+                <option value="Digestive" <%= type === "Digestive" ? "selected" : "" %>>
+                  Digestive Relief
+                </option>
+
+                <option value="Antacid" <%= type === "Antacid" ? "selected" : "" %>>
+                  Antacid
+                </option>
             </select>
           </div>
 
@@ -118,6 +125,20 @@
               <td><%= med.type %></td>
               <td><%= med.dosageform %></td>
               <td><%= med.notes %></td>
+              <td>
+                <button 
+                  class="edit-btn"
+                  onclick="location.href='/edit-medicine?user=<%= userId %>&med=<%= med.medicine_id %>'">
+                  Edit
+                </button>
+              </td>
+              <td>
+                <form action="/delete-medicine" method="POST" style="display:inline;">
+                  <input type="hidden" name="userID" value="<%= userId %>">
+                  <input type="hidden" name="medicineID" value="<%= med.medicine_id %>">
+                  <button class="delete-btn" type="submit">Delete</button>
+                </form>
+            </td>
             </tr>
             <% }) %>
           </tbody>

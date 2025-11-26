@@ -15,7 +15,6 @@
           <a href="/dashboard?user=<%= userId %>" class="active">Dashboard</a>
           <a href="/browse?user=<%= userId %>">Browse Medicines</a>
           <a href="/my-medicine?user=<%= userId %>">My Medicines</a>
-          <a href="/add-medicine?user=<%= userId %>">Add Medicine</a>
           <a href="/login">Logout</a>
         </nav>
       </aside>
@@ -48,20 +47,8 @@
           <button onclick="location.href='/my-medicine?user=<%= userId %>'">
             My list
           </button>
-          <button onclick="location.href='/add-medicine?user=<%= userId %>'">
-            Add medicine
-          </button>
         </div>
       </main>
     </div>
-
-    <script>
-      // Example JS - later this can fetch from backend
-      document.querySelectorAll(".actions button").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          alert(`Clicked: ${btn.textContent}`);
-        });
-      });
-    </script>
   </body>
 </html>
