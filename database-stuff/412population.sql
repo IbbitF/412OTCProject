@@ -66,7 +66,7 @@ VALUES
 INSERT INTO Users (username, password)
 VALUES
 ('alex', 'pw1'),
-('brenden', 'pw2'),
+('brendan', 'pw2'),
 ('bilal', 'pw3'),
 ('gianna', 'pw4');
 
