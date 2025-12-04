@@ -1,0 +1,420 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict 02EKBAcsZNWwhMZze9pZfQ5OpWd5jlyXhQj2axqLYWeueRd2Aa9S6VoRywdnjle
+
+-- Dumped from database version 17.6
+-- Dumped by pg_dump version 17.6
+
+-- Started on 2025-12-04 12:36:03
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4882 (class 1262 OID 24576)
+-- Name: 412Project; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE "412Project" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'English_United States.1252';
+
+
+ALTER DATABASE "412Project" OWNER TO postgres;
+
+\unrestrict 02EKBAcsZNWwhMZze9pZfQ5OpWd5jlyXhQj2axqLYWeueRd2Aa9S6VoRywdnjle
+\connect "412Project"
+\restrict 02EKBAcsZNWwhMZze9pZfQ5OpWd5jlyXhQj2axqLYWeueRd2Aa9S6VoRywdnjle
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 218 (class 1259 OID 24864)
+-- Name: brand; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.brand (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.brand OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 24863)
+-- Name: brand_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.brand_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.brand_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4883 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: brand_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.brand_id_seq OWNED BY public.brand.id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 24871)
+-- Name: medicine; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medicine (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    brandid integer NOT NULL,
+    type character varying(50)
+);
+
+
+ALTER TABLE public.medicine OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 24870)
+-- Name: medicine_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medicine_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.medicine_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4884 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: medicine_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medicine_id_seq OWNED BY public.medicine.id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 24891)
+-- Name: usermedicine; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.usermedicine (
+    userid integer NOT NULL,
+    medicineid integer NOT NULL,
+    dosageform character varying(50),
+    notes text
+);
+
+
+ALTER TABLE public.usermedicine OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 24883)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying(50) NOT NULL,
+    password character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 24882)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4885 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 4709 (class 2604 OID 24867)
+-- Name: brand id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.brand ALTER COLUMN id SET DEFAULT nextval('public.brand_id_seq'::regclass);
+
+
+--
+-- TOC entry 4710 (class 2604 OID 24874)
+-- Name: medicine id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicine ALTER COLUMN id SET DEFAULT nextval('public.medicine_id_seq'::regclass);
+
+
+--
+-- TOC entry 4711 (class 2604 OID 24886)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 4871 (class 0 OID 24864)
+-- Dependencies: 218
+-- Data for Name: brand; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.brand VALUES (1, 'Tylenol');
+INSERT INTO public.brand VALUES (2, 'Advil');
+INSERT INTO public.brand VALUES (3, 'Aleve');
+INSERT INTO public.brand VALUES (4, 'Claritin');
+INSERT INTO public.brand VALUES (5, 'Zyrtec');
+INSERT INTO public.brand VALUES (6, 'Benadryl');
+INSERT INTO public.brand VALUES (7, 'Pepto-Bismol');
+INSERT INTO public.brand VALUES (8, 'Tums');
+INSERT INTO public.brand VALUES (9, 'Imodium');
+INSERT INTO public.brand VALUES (10, 'Mucinex');
+INSERT INTO public.brand VALUES (11, 'Robitussin');
+INSERT INTO public.brand VALUES (12, 'DayQuil');
+INSERT INTO public.brand VALUES (13, 'NyQuil');
+
+
+--
+-- TOC entry 4873 (class 0 OID 24871)
+-- Dependencies: 220
+-- Data for Name: medicine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.medicine VALUES (1, 'Tylenol Extra Strength', 1, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (2, 'Tylenol Cold + Flu', 1, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (3, 'Tylenol PM', 1, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (4, 'Advil Regular Strength', 2, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (5, 'Advil PM', 2, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (6, 'Advil Migraine', 2, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (7, 'Advil Dual Action', 2, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (8, 'Aleve Pain Relief', 3, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (9, 'Aleve PM', 3, 'Pain Reliever');
+INSERT INTO public.medicine VALUES (10, 'Claritin 24-Hour', 4, 'Antihistamine');
+INSERT INTO public.medicine VALUES (11, 'Claritin-D', 4, 'Antihistamine');
+INSERT INTO public.medicine VALUES (12, 'Claritin Chewables', 4, 'Antihistamine');
+INSERT INTO public.medicine VALUES (13, 'Zyrtec Allergy Relief', 5, 'Antihistamine');
+INSERT INTO public.medicine VALUES (14, 'Zyrtec-D', 5, 'Antihistamine');
+INSERT INTO public.medicine VALUES (15, 'Benadryl Allergy', 6, 'Antihistamine');
+INSERT INTO public.medicine VALUES (16, 'Benadryl Ultratabs', 6, 'Antihistamine');
+INSERT INTO public.medicine VALUES (17, 'Pepto-Bismol Liquid', 7, 'Digestive');
+INSERT INTO public.medicine VALUES (18, 'Pepto-Bismol Chewables', 7, 'Digestive');
+INSERT INTO public.medicine VALUES (19, 'Tums Regular Strength', 8, 'Antacid');
+INSERT INTO public.medicine VALUES (20, 'Tums Ultra', 8, 'Antacid');
+INSERT INTO public.medicine VALUES (21, 'Imodium A-D', 9, 'Digestive');
+INSERT INTO public.medicine VALUES (22, 'Imodium Multi-Symptom Relief', 9, 'Digestive');
+INSERT INTO public.medicine VALUES (23, 'Mucinex DM', 10, 'Cough');
+INSERT INTO public.medicine VALUES (24, 'Mucinex Fast-Max Cold & Flu', 10, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (25, 'Mucinex Sinus-Max', 10, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (26, 'Robitussin Cough + Chest Congestion DM', 11, 'Cough');
+INSERT INTO public.medicine VALUES (27, 'Robitussin Honey Cough', 11, 'Cough');
+INSERT INTO public.medicine VALUES (28, 'Vicks DayQuil Cold & Flu', 12, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (29, 'DayQuil Severe', 12, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (30, 'Vicks NyQuil Cold & Flu', 13, 'Cold/Flu');
+INSERT INTO public.medicine VALUES (31, 'Vicks NyQuil Severe', 13, 'Cold/Flu');
+
+
+--
+-- TOC entry 4876 (class 0 OID 24891)
+-- Dependencies: 223
+-- Data for Name: usermedicine; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.usermedicine VALUES (1, 1, 'Tablet', 'Used for headaches and general pain');
+INSERT INTO public.usermedicine VALUES (1, 4, 'Tablet', 'Used for muscle aches');
+INSERT INTO public.usermedicine VALUES (1, 8, 'Tablet', 'Alternative to Advil');
+INSERT INTO public.usermedicine VALUES (1, 17, 'Liquid', 'Used for upset stomach');
+INSERT INTO public.usermedicine VALUES (1, 27, 'Capsule', 'Used during flu season');
+INSERT INTO public.usermedicine VALUES (2, 3, 'Caplet', 'Used for pain relief at night');
+INSERT INTO public.usermedicine VALUES (2, 10, 'Tablet', 'Used for allergies');
+INSERT INTO public.usermedicine VALUES (2, 19, 'Tablet', 'Helps with acid reflux');
+INSERT INTO public.usermedicine VALUES (2, 21, 'Tablet', 'Used when traveling');
+INSERT INTO public.usermedicine VALUES (2, 29, 'Liquid', 'Taken when experiencing congestion');
+INSERT INTO public.usermedicine VALUES (3, 5, 'Capsule', 'Helps relieve headaches and insomnia');
+INSERT INTO public.usermedicine VALUES (3, 13, 'Tablet', 'Daily allergy prevention');
+INSERT INTO public.usermedicine VALUES (3, 23, 'Tablet', 'Used during colds');
+INSERT INTO public.usermedicine VALUES (3, 28, 'Liquid', 'Used for cough and congestion');
+INSERT INTO public.usermedicine VALUES (4, 6, 'Capsule', 'Taken for migraines');
+INSERT INTO public.usermedicine VALUES (4, 16, 'Tablet', 'Used for allergic reactions');
+INSERT INTO public.usermedicine VALUES (4, 25, 'Syrup', 'Helps with sore throat and cough');
+INSERT INTO public.usermedicine VALUES (5, 11, 'Liquid', 'Notes');
+INSERT INTO public.usermedicine VALUES (5, 2, 'Tablet', '');
+INSERT INTO public.usermedicine VALUES (5, 7, 'Tablet', '');
+INSERT INTO public.usermedicine VALUES (5, 15, 'Tablet', '');
+INSERT INTO public.usermedicine VALUES (6, 7, 'Tablet', 'Nosasss');
+
+
+--
+-- TOC entry 4875 (class 0 OID 24883)
+-- Dependencies: 222
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.users VALUES (1, 'alex', 'pw1');
+INSERT INTO public.users VALUES (2, 'brenden', 'pw2');
+INSERT INTO public.users VALUES (3, 'bilal', 'pw3');
+INSERT INTO public.users VALUES (4, 'gianna', 'pw4');
+INSERT INTO public.users VALUES (5, 'Ibbit', 'pw5');
+INSERT INTO public.users VALUES (6, 'Test', 'pw6');
+
+
+--
+-- TOC entry 4886 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: brand_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.brand_id_seq', 13, true);
+
+
+--
+-- TOC entry 4887 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: medicine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.medicine_id_seq', 31, true);
+
+
+--
+-- TOC entry 4888 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
+
+
+--
+-- TOC entry 4713 (class 2606 OID 24869)
+-- Name: brand brand_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.brand
+    ADD CONSTRAINT brand_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4715 (class 2606 OID 24876)
+-- Name: medicine medicine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicine
+    ADD CONSTRAINT medicine_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4721 (class 2606 OID 24897)
+-- Name: usermedicine usermedicine_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usermedicine
+    ADD CONSTRAINT usermedicine_pkey PRIMARY KEY (userid, medicineid);
+
+
+--
+-- TOC entry 4717 (class 2606 OID 24888)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4719 (class 2606 OID 24890)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 4722 (class 2606 OID 24877)
+-- Name: medicine medicine_brandid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medicine
+    ADD CONSTRAINT medicine_brandid_fkey FOREIGN KEY (brandid) REFERENCES public.brand(id);
+
+
+--
+-- TOC entry 4723 (class 2606 OID 24903)
+-- Name: usermedicine usermedicine_medicineid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usermedicine
+    ADD CONSTRAINT usermedicine_medicineid_fkey FOREIGN KEY (medicineid) REFERENCES public.medicine(id);
+
+
+--
+-- TOC entry 4724 (class 2606 OID 24898)
+-- Name: usermedicine usermedicine_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.usermedicine
+    ADD CONSTRAINT usermedicine_userid_fkey FOREIGN KEY (userid) REFERENCES public.users(id);
+
+
+-- Completed on 2025-12-04 12:36:03
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict 02EKBAcsZNWwhMZze9pZfQ5OpWd5jlyXhQj2axqLYWeueRd2Aa9S6VoRywdnjle
+
